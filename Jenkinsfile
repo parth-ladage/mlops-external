@@ -6,19 +6,21 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'python3 -m venv .venv'
+                sh '.venv/bin/pip install --upgrade pip'
+                sh '.venv/bin/pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest -v'
+                sh '.venv/bin/pytest -v'
             }
         }
 
         stage('Evidently Monitoring') {
             steps {
-                sh 'python monitor.py'
+                sh '.venv/bin/python monitor.py'
             }
         }
     }
